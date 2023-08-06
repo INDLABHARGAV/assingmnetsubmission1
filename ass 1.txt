@@ -1,0 +1,173 @@
+
+1. Update Header Title:
+   In the Header component, assuming you have an array `orders`, update the title to display the total number of orders:
+
+```jsx
+import React from 'react';
+
+const Header = ({ orders }) => {
+  const totalOrders = orders.length;
+
+  return (
+    <div>
+      <h1>{`Total Orders: ${totalOrders}`}</h1>
+      {/* Other header content */}
+    </div>
+  );
+};
+
+export default Header;
+```
+
+2. Add Order Submitted Date:
+   In the Table component, assuming you have an array of `orders` and a corresponding `timestamps` object from the `timeStamps.json`, update the rendering of the table rows:
+
+```jsx
+import React from 'react';
+
+const Table = ({ orders, timestamps }) => {
+  return (
+    <table>
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Order Volume</th>
+          <th>Order Submitted Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {orders.map((order) => (
+          <tr key={order.id}>
+            <td>{order.id}</td>
+            <td>{order.volume}</td>
+            <td>{timestamps[order.id]}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+};
+
+export default Table;
+```
+
+3. Display Currency Value:
+   Assuming you have a currency selection dropdown in the Header, and you're using React and state management:
+
+```jsx
+import React, { useState } from 'react';
+
+const Header = ({ orders }) => {
+  const [selectedCurrency, setSelectedCurrency] = useState('USD');
+
+  // ...other code...
+
+  return (
+    <div>
+      <h1>{`Total Orders: ${orders.length}`}</h1>
+      <div>
+        {/* Currency selection dropdown */}
+        <select
+          value={selectedCurrency}
+          onChange={(e) => setSelectedCurrency(e.target.value)}
+        >
+          <option value="USD">USD</option>
+          <option value="EUR">EUR</option>
+          {/* Add more currency options if needed */}
+        </select>
+      </div>
+      {/* Other header content */}
+    </div>
+  );
+};
+```
+
+4. Implement Search Feature:
+   Assuming you have a search bar component in the Header:
+
+```jsx
+import React, { useState } from 'react';
+
+const Header = ({ orders, setFilteredOrders }) => {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearch = () => {
+    const filteredOrders = orders.filter((order) =>
+      order.id.includes(searchTerm)
+    );
+    setFilteredOrders(filteredOrders);
+  };
+
+  // ...other code...
+
+  return (
+    <div>
+      <h1>{`Total Orders: ${orders.length}`}</h1>
+      <div>
+        {/* Search bar */}
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <button onClick={handleSearch}>Search</button>
+      </div>
+      {/* Other header content */}
+    </div>
+  );
+};
+```
+
+5. Populate Card on Order Selection:
+   Create a new Card component and use a state variable to store the selected order:
+
+```jsx
+import React, { useState } from 'react';
+
+const Card = ({ selectedOrder }) => {
+  return (
+    <div>
+      <h2>Selected Order Details:</h2>
+      {selectedOrder && (
+        <>
+          <p>Order ID: {selectedOrder.id}</p>
+          <p>Order Volume: {selectedOrder.volume}</p>
+          <p>Order Submitted Date: {selectedOrder.submittedDate}</p>
+          {/* Display other order details as needed */}
+        </>
+      )}
+    </div>
+  );
+};
+
+export default Card;
+```
+
+In the Table component, when a user selects an order, update the state with the selected order:
+
+```jsx
+import React, { useState } from 'react';
+
+const Table = ({ orders, timestamps }) => {
+  const [selectedOrder, setSelectedOrder] = useState(null);
+
+  const handleOrderClick = (order) => {
+    setSelectedOrder(order);
+  };
+
+  return (
+    <div>
+      <table>
+        {/* ...table rendering code... */}
+      </table>
+      <Card selectedOrder={selectedOrder} />
+    </div>
+  );
+};
+
+export default Table;
+```
+
+Please note that the above code snippets assume you have the required props and state management set up in your components. Adjust the code based on your specific implementation and data structure.
+
+As for integrating Storybook, you can follow the steps mentioned earlier in the previous response to set up and run Storybook for your components.
